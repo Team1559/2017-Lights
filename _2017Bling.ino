@@ -45,7 +45,7 @@ void loop() {
       readingRainbowFade(240);
       break;
     case 5://Auto
-      seizureMode(5);
+      seizureMode(0);
       break;
     case 6://Disabled
       pulseGreen();
