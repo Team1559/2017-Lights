@@ -72,20 +72,22 @@ void theFinalCountdown() {
     }
   }
   strip.show();
-  for (int i = strip.numPixels(); i >= 0; i--) {
+  for (int i = strip.numPixels(); i >= strip.numPixels() / 3; i--) {
     strip.setPixelColor(i, 0, 0, 0);
     strip.show();
-    delay(20000 / strip.numPixels());
-    if (i >= strip.numPixels() / 3) {
-      delay(10000 / strip.numPixels());
-    }
-    else {
-      setAll(0, 0, 0);
-      delay(10000 / strip.numPixels());
-      for (int j = 0; j < i; j++) {
-        strip.setPixelColor(j, 255, 0, 0);
-      }
-      strip.show();
+    delay(30000 / strip.numPixels());
+  }
+  setAll(255, 0, 0);
+  for (int i = strip.numPixels(); i >= 0; i -= 3) {
+    strip.setPixelColor(i, 0, 0, 0);
+    strip.setPixelColor(i - 1, 0, 0, 0);
+    strip.setPixelColor(i - 2, 0, 0, 0);
+    strip.show();
+    delay(15000 / strip.numPixels());
+    setAll(0, 0, 0);
+    delay(15000 / strip.numPixels());
+    for (int j = 0; j < i - 2; j++) {
+      strip.setPixelColor(j, 255, 0, 0);
     }
   }
 }
@@ -222,11 +224,11 @@ void readingRainbowFade(double ctr) {
   }
 }
 
-void dingDingDing(){
-  for(int i = 0; i < 3; i++){
-    setAll(255,255,255);
+void dingDingDing() {
+  for (int i = 0; i < 3; i++) {
+    setAll(255, 255, 255);
     delay(120);
-    setAll(0,0,0);
+    setAll(0, 0, 0);
     delay(80);
   }
 }
