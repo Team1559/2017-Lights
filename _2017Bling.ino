@@ -19,7 +19,7 @@ void setup() {
     fadeFromTo(int r, int g, int b, int r2, int g2, int b2);
     crawling(int r, int g, int b, int r2, int g2, int b2, boolean left, int delay);
     rainbowFade();
-    readingRainbowFade(int centerAngle);
+    readingRainbowFade(int centerAngle, int range, int delay);
     seizureMode(int delay);
     pulseGreen();
     dingDingDing();
@@ -27,8 +27,8 @@ void setup() {
 
 void loop() {
   switch (data[0]) {
-    case 1://Currently Vetigial
-      cylonEye(255, 0, 0, 0, 0, 255, 4, 15);
+    case 1://Currently Vestigial
+      cylonEye(255, 0, 0, 0, 0, 255, 2, 5);
       break;
     case 2://Final 30 Sec
       theFinalCountdown();
@@ -42,7 +42,12 @@ void loop() {
       }
       break;
     case 4://Mecanum
-      readingRainbowFade(240);
+      if (data[1] == 1) {
+        readingRainbowFade(180, 60, 10);
+      }
+      else {
+        readingRainbowFade(340, 30, 20);
+      }
       break;
     case 5://Auto
       seizureMode(0);

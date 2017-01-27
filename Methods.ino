@@ -90,6 +90,9 @@ void theFinalCountdown() {
       strip.setPixelColor(j, 255, 0, 0);
     }
   }
+  for (int i = 0; i <= 200; i++) {
+    seizureMode(2);
+  }
 }
 
 void fadeFromTo(int r, int g, int b, int r2, int g2, int b2) {
@@ -206,20 +209,23 @@ void rainbowFade() {
   }
 }
 
-void readingRainbowFade(double ctr) {
-  byte start = data[0];
-  for (float i = ctr - 60; i <= ctr + 60; i++) {
-    for (int j = 0; j <= strip.numPixels(); j++) {
-      if (i + j < ctr + 60) {
-        strip.setPixelColor(j, HSVtoRGB(i + j, 100, 50));
-      }
-      else {
-        strip.setPixelColor(j, HSVtoRGB((i + j - ctr - 60), 100, 50));
+void readingRainbowFade(int ctr, int rng, int del) {
+  for (int i = ctr + rng; i >= ctr; i--) {
+    for (int j = 0; j <= rng; j++) {
+      for (int k = 0; k < (int)(strip.numPixels() / rng); k++) {
+        strip.setPixelColor(j * (int)(strip.numPixels() / rng) + k, HSVtoRGB(colorWrap(i + j), 100, 50));
       }
     }
-    if (start != data[0]) {
-      return;
+    delay(del);
+    strip.show();
+  }
+  for (int i = ctr; i <= ctr + rng; i++) {
+    for (int j = 0; j <= rng; j++) {
+      for (int k = 0; k < (int)(strip.numPixels() / rng); k++) {
+        strip.setPixelColor(j * (int)(strip.numPixels() / rng) + k, HSVtoRGB(colorWrap(i + j), 100, 50));
+      }
     }
+    delay(del);
     strip.show();
   }
 }
@@ -241,9 +247,26 @@ void seizureMode(int del) {
   delay(del);
 }
 
+void fastSeizureMode(int del) {
+  setAll(randColor());
+  delay(del);
+}
+
 void pulseGreen() {
   fadeFromTo(0, 255, 0, 0, 0, 0);
   fadeFromTo(0, 0, 0, 0, 255, 0);
+}
+
+int colorWrap(int in) {
+  if (in >= 360) {
+    return colorWrap(in - 360);
+  }
+  else if (in < 0) {
+    return colorWrap(in + 360);
+  }
+  else {
+    return in;
+  }
 }
 
 uint32_t HSVtoRGB(float h, float s, float v) {
