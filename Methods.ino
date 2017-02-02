@@ -22,7 +22,17 @@ uint32_t randBlueGold(Adafruit_NeoPixel strip) {
 }
 
 uint32_t randColor() {
-  return HSVtoRGB(random(0, 360), 100, 100);
+  return HSVtoRGB(random(0, 360), 100, 50);
+}
+
+void music(byte level) {
+  for (int i = 0; i <= strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0, 0, 0);
+  }
+  for (int i = 0; i < level; i++) {
+    strip.setPixelColor(i, HSVtoRGB(60 - (i / 2), 100, 100));
+  }
+  strip.show();
 }
 
 void cylonEye(int r, int g, int b, int r2, int g2, int b2, int l, int del)
@@ -209,6 +219,24 @@ void rainbowFade() {
   }
 }
 
+void aim(float error) {//assumes error is between 0 and 20, WILL probably change, see, see, I made a pun in the code, cuz will told me thatit will probably change, LOL!! Well, that's my comment for the day
+  for(int i = 0; i < strip.numPixels(); i++){
+    strip.setPixelColor(i,0,0,0);
+  }
+  if (error >= 1) { //within 1 deg is "good"
+    for (int i = 0; i < error; i++) {
+      for(int j = 0; j < 3; j++){
+        strip.setPixelColor(3*i-j,strip.Color(255,0,0));
+        strip.setPixelColor(120-3*i-j,strip.Color(255,0,0));
+      }
+    }
+    strip.show();
+  }
+  else{
+    dingDingDing(strip.Color(0,255,0));
+  }
+}
+
 void readingRainbowFade(int ctr, int rng, int del) {
   for (int i = ctr + rng; i >= ctr; i--) {
     for (int j = 0; j <= rng; j++) {
@@ -233,6 +261,15 @@ void readingRainbowFade(int ctr, int rng, int del) {
 void dingDingDing() {
   for (int i = 0; i < 3; i++) {
     setAll(255, 255, 255);
+    delay(120);
+    setAll(0, 0, 0);
+    delay(80);
+  }
+}
+
+void dingDingDing(uint32_t color) {
+  for (int i = 0; i < 3; i++) {
+    setAll(color);
     delay(120);
     setAll(0, 0, 0);
     delay(80);

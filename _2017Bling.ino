@@ -43,7 +43,7 @@ void loop() {
       break;
     case 4://Mecanum
       if (data[1] == 1) {
-        readingRainbowFade(180, 60, 10);
+        readingRainbowFade(180, 60, 5);
       }
       else {
         readingRainbowFade(340, 30, 20);
@@ -54,6 +54,15 @@ void loop() {
       break;
     case 6://Disabled
       pulseGreen();
+      break;
+    case 7://Auto-Aim
+      aim(data[2]);
+      break;
+    case 8://aim tester
+      for (int i = 0; i < 20; i += .5) {
+        aim(i);
+        delay(200);
+      }
       break;
     default:
       setAll(255, 255, 255);
@@ -72,7 +81,7 @@ void loop() {
 void serialEvent() {
   int i = 0;
   while (Serial.available()) {
-    data[i] = (byte)Serial.read() - 48;
+    data[i] = Serial.read() - 48;
     i++;
   }
 }
